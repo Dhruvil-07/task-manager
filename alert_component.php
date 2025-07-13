@@ -1,6 +1,6 @@
 <?php if (isset($_SESSION['alert'])): ?>
     <div id="alertBox" class="alert alert-<?php echo $_SESSION['alert']['type']; ?> alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert" style="z-index: 9999; min-width: 300px;">
-        <?php echo $_SESSION['alert']['message']; ?>
+        <?= $_SESSION['alert']['message'] ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -17,7 +17,7 @@
                     alertBox.remove();
                 }, 500);
             }
-        }, 2000);
+        }, 3000);
     </script>
 
     <?php unset($_SESSION['alert']); ?>
