@@ -2,6 +2,7 @@
 require_once("auth.php");
 require_once("db.php");
 require_once("validation.php");
+require_once("navigate.php");
 
 $id = $_GET["id"]; //task id
 $user_id = $_SESSION["user_id"]; //login user id
@@ -12,7 +13,9 @@ $errors = []; //array to store validation errrors
 
 //navigate to dashboard when no id provided
 if (!$id) {
-    header("Location:Dashboard.php");
+    //set alert message
+    Navigate("danger","Task ID Not Provided","./dashboard.php");
+    exit;
 }
 
 //get task handler
@@ -32,7 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $result = $stmt->get_result();
         // record not found becuase of the invalide id then redirect to dashboard with error
         if ($result->num_rows === 0) {
-            header("Location: ./dashboard.php");
+            //set alert message
+            Navigate("danger","Invalid Task ID","./dashboard.php");
+            exit;
         }
 
         $task_data = $result->fetch_assoc();
@@ -40,7 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $task_description = $task_data["description"];
         $task_status = $task_data["status"];
     } catch (Exception $e) {
-        echo $e->getMessage();
+        //set alert message
+        Navigate("danger",$e->getMessage());
     } finally {
         if (!$stmt) {
             $stmt->close();
@@ -50,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
 
 
- 
+
 //edit task handler 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $task_title = trim($_POST["title"]);
@@ -59,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $stmt = null;
 
     //validate input and process
-    if (validateEditTask($task_description,$errors)) {
+    if (validateEditTask($task_description, $errors)) {
         try {
             $stmt = $conn->prepare("update tasks set description=? , status=? where id=?");
             if (!$stmt) {
@@ -69,16 +75,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
             if (!$stmt->execute()) {
                 throw new Exception("Execution Error " . $conn->error);
             }
+
+            //set alert message
+            Navigate("success","Task Update successful!","./dashboard.php");
+            exit;
         } catch (Exception $e) {
-            echo $e->getMessage();
+            //set alert message
+            Navigate("danger",$e->getMessage());
         } finally {
             if ($stmt) {
                 $stmt->close();
             }
         }
-
-        //navigate to dashboard
-        header("Location:./dashboard.php");
     }
 }
 ?>
@@ -94,9 +102,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
 
 <body class="container-fuild">
 
-    <?php require_once("./navbar.php") ?>
-    <h2 class="mb-4">Edit Task</h2>
+    <!-- alert component set -->
+    <?php require_once("./alert_component.php") ?>
 
+    <!-- navbar component set  -->
+    <?php require_once("./navbar.php") ?>
+
+    <h2 class="mb-4">Edit Task</h2>
+    
     <form method="POST" class="border p-4 rounded shadow-sm bg-light">
 
         <input type="hidden" name="task_id" value="<?= htmlspecialchars($task['id']) ?>">

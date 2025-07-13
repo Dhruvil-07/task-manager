@@ -2,6 +2,7 @@
 require_once("db.php");
 require_once('auth.php');
 require_once('validation.php');
+require_once('navigate.php');
 
 $title = ''; //for store title
 $desripption = ''; //for store description
@@ -29,10 +30,13 @@ if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["add_task"]))) {
                 throw new Exception("Execute failed: " . $stmt->error);
             }
 
-            echo "Task added sucessfully";
             $title = $description = '';
+
+            //set alert message
+            Navigate("success","Register Task Successfully");
         } catch (Exception $e) {
-            echo $e->getMessage();
+            //set alert navigate
+            Navigate("danger",$e->getMessage());
         } finally {
             if (!$stmt) {
                 $stmt->close();
@@ -56,6 +60,10 @@ if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["add_task"]))) {
 
 <body>
 
+    <!-- alert component set -->
+    <?php include('./alert_component.php'); ?>
+
+    <!-- navbar component set -->
     <?php include('navbar.php'); ?>
 
     <!-- New Task Navigation -->

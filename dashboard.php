@@ -1,6 +1,7 @@
 <?php
 require_once("./db.php");
 require_once('./auth.php');
+require_once("./navigate.php");
 
 $tasks = []; //for store all fethched task
 
@@ -12,19 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $stmt->bind_param("i", $_SESSION["user_id"]);
         $stmt->execute();
         $result = $stmt->get_result();
-        $tasks = $result->fetch_all(MYSQLI_ASSOC);
+        $tasks = $result->fetch_all(MYSQLI_ASSOC); 
     } catch (Exception $e) {
-        echo "Error fetching tasks: " . $e->getMessage();
-    }
-    finally
-    {
-        if(!$stmt)
-        {
+        //show error alert
+        Navigate("danger",$e->getMessage());   
+    } finally {
+        if (!$stmt) {
             $stmt->close();
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 </head>
 
 <body>
+
+    <!-- alert component set -->
+    <?php require_once("./alert_component.php") ?>
+
+    <!--  navbar component set -->
     <?php require_once("./navbar.php") ?>
 
     <!-- new task navigation-->

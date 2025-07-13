@@ -1,6 +1,7 @@
 <?php
 require_once('./db.php');
 require_once('./validation.php');
+require_once("./navigate.php");
 
 $email = $password = $cnfpassword = '';
 $errors = [];
@@ -40,9 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
                 // Reset form fields
                 $email = $password = $cnfpassword = '';
 
+                //set alert message with navigation
+                Navigate("success", "Register SuccessFully...", "./index.php");
+                exit;
             }
         } catch (Exception $e) {
-            echo $e->getMessage();
+            // show error message
+            Navigate("danger", $e->getMessage());
         } finally {
             if ($checkStmt)
                 $checkStmt->close();
@@ -63,6 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
 </head>
 
 <body class="bg-light">
+
+    <!-- alert component -->
+    <?php require_once("./alert_component.php") ?>
+
+    <!-- registration component -->
     <div class="d-flex justify-content-center align-items-center min-vh-100">
         <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
             <div class="card-body">
@@ -101,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
                 </form>
 
                 <div class="text-center mt-3">
-                    <a href="login.php">Already have an account? Login</a>
+                    <a href="index.php">Already have an account? Login</a>
                 </div>
             </div>
         </div>

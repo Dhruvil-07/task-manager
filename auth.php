@@ -7,7 +7,7 @@
     $currentPage = basename($_SERVER['PHP_SELF']);
 
     //if not login and access protected page  -> navigate index.php
-    if( !isset($_SESSION['user_id']) && $currentPage !== "index.php" )
+    if( !isset($_SESSION['user_id']) && $currentPage !== "index.php"  && $currentPage !== "register.php")
     {
         header("Location: index.php");
         exit;
