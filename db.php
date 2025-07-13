@@ -4,7 +4,11 @@
 // error_reporting(0);
 
 // Define DB config via query-style params
-$host = 'localhost:3307';
+
+$appPort="8080"; //port for application
+
+$DBport="3307";
+$host = 'localhost:'.$DBport;
 $dbname = 'taskmanager';
 $username = 'root';
 $password = '';
