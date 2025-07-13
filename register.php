@@ -57,65 +57,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
 
-    <!-- alert component -->
-    <?php require_once("./alert_component.php") ?>
+  <!-- Alert Component -->
+  <?php require_once("./alert_component.php") ?>
 
-    <!-- registration component -->
-    <div class="d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
-            <div class="card-body">
-                <h4 class="mb-4 text-center">Register</h4>
+  <!-- navbar -->
+   <?php require_once("navbar.php") ?>
 
-                <form action="" method="POST">
-                    <div class="mb-3">
-                        <label for="registerEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
-                            name="email" value="<?= htmlspecialchars($email) ?>" required>
-                        <?php if (isset($errors['email'])): ?>
-                            <div class="invalid-feedback"><?= $errors['email'] ?></div>
-                        <?php endif; ?>
-                    </div>
+  <!-- Register Form Section -->
+  <div class="d-flex justify-content-center align-items-center min-vh-100 px-3">
+    <div class="card shadow-lg border-0 rounded-4 w-100" style="max-width: 420px;">
+      <div class="card-body p-4">
+        <h4 class="mb-4 text-center text-success fw-semibold">Create Account</h4>
 
-                    <div class="mb-3">
-                        <label for="registerPassword" class="form-label">Password</label>
-                        <input type="password"
-                            class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>" name="password"
-                            required>
-                        <?php if (isset($errors['password'])): ?>
-                            <div class="invalid-feedback"><?= $errors['password'] ?></div>
-                        <?php endif; ?>
-                    </div>
+        <form action="" method="POST">
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="registerEmail" class="form-label">Email</label>
+            <input type="email" class="form-control border border-dark  <?= isset($errors['email']) ? 'is-invalid' : '' ?>" name="email"
+              value="<?= htmlspecialchars($email) ?>" required>
+            <?php if (isset($errors['email'])): ?>
+              <div class="invalid-feedback"><?= $errors['email'] ?></div>
+            <?php endif; ?>
+          </div>
 
-                    <div class="mb-3">
-                        <label for="cnfpassword" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control <?= isset($errors['confirm']) ? 'is-invalid' : '' ?>"
-                            name="cnfpassword" required>
-                        <?php if (isset($errors['confirm'])): ?>
-                            <div class="invalid-feedback"><?= $errors['confirm'] ?></div>
-                        <?php endif; ?>
-                    </div>
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="registerPassword" class="form-label">Password</label>
+            <input type="password" class="form-control border border-dark  <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
+              name="password" required>
+            <?php if (isset($errors['password'])): ?>
+              <div class="invalid-feedback"><?= $errors['password'] ?></div>
+            <?php endif; ?>
+          </div>
 
-                    <button type="submit" class="btn btn-success w-100" name="registraction">Register</button>
-                </form>
+          <!-- Confirm Password -->
+          <div class="mb-3">
+            <label for="cnfpassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control border border-dark <?= isset($errors['confirm']) ? 'is-invalid' : '' ?>"
+              name="cnfpassword" required>
+            <?php if (isset($errors['confirm'])): ?>
+              <div class="invalid-feedback"><?= $errors['confirm'] ?></div>
+            <?php endif; ?>
+          </div>
 
-                <div class="text-center mt-3">
-                    <a href="index.php">Already have an account? Login</a>
-                </div>
-            </div>
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success fw-semibold" name="registraction">
+              <i class="bi bi-person-plus me-1"></i> Register
+            </button>
+          </div>
+        </form>
+
+        <!-- Login Link -->
+        <div class="text-center mt-3 small">
+          Already have an account? <a href="index.php" class="text-decoration-none text-success fw-semibold">Login</a>
         </div>
+      </div>
     </div>
+  </div>
+
 </body>
 
 </html>

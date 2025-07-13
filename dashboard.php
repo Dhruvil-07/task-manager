@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $stmt->bind_param("i", $_SESSION["user_id"]);
         $stmt->execute();
         $result = $stmt->get_result();
-        $tasks = $result->fetch_all(MYSQLI_ASSOC); 
+        $tasks = $result->fetch_all(MYSQLI_ASSOC);
     } catch (Exception $e) {
         //show error alert
-        Navigate("danger",$e->getMessage());   
+        Navigate("danger", $e->getMessage());
     } finally {
         if (!$stmt) {
             $stmt->close();
@@ -42,15 +42,30 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     <!--  navbar component set -->
     <?php require_once("./navbar.php") ?>
 
-    <!-- new task navigation-->
-    <a href="./add_task.php" class="btn btn-primary">+ Add New Task</a>
+    <!-- add new task navigation -->
+    <div class="container mt-4">
+        <div
+            class="d-flex justify-content-between align-items-center bg-primary bg-opacity-10 border border-primary rounded shadow-sm px-4 py-3 mb-4">
+            <h4 class="mb-0 text-primary fw-semibold">
+                <i class="bi bi-card-checklist me-2"></i> Your Tasks
+            </h4>
+            <a href="./add_task.php" class="btn btn-primary fw-semibold shadow-sm">
+                <i class="bi bi-plus-circle me-1"></i> Add New Task
+            </a>
+        </div>
+    </div>
 
-    <!-- task card -->
+    <!-- task card container -->
     <div class="container mt-4">
         <div class="row g-4">
             <?php if (empty($tasks)): ?>
-                <div class="col-12 text-center text-muted">
-                    <p>No tasks created.</p>
+                <div class="col-12">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                        <div class="text-center text-muted fs-5">
+                            <i class="bi bi-clipboard-x" style="font-size: 2rem;"></i>
+                            <p class="mt-2">No tasks assigned yet.</p>
+                        </div>
+                    </div>
                 </div>
             <?php else: ?>
                 <?php foreach ($tasks as $task): ?>
@@ -64,13 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                     };
                     ?>
                     <div class="col-12 col-sm-6 col-md-4">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card h-100 bg-light border border-secondary-subtle shadow-sm rounded-4">
                             <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h5 class="card-title mb-0"><?= htmlspecialchars($task['title']) ?></h5>
-                                    <span class="badge <?= $badgeClass ?>">
-                                        <?= htmlspecialchars($task['status']) ?>
-                                    </span>
+                                    <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($task['status']) ?></span>
                                 </div>
 
                                 <div class="mb-3">
@@ -82,7 +95,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                                 </div>
 
                                 <p class="card-text">
-                                    <small class="text-muted">Created at: <?= htmlspecialchars($task['created_at']) ?></small>
+                                    <small class="text-muted">
+                                        <strong>Created at :</strong> <?= date('Y-m-d', strtotime($task['created_at'])) ?>
+                                    </small>
                                 </p>
 
                                 <div class="mt-auto d-flex justify-content-between">

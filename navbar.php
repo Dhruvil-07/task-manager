@@ -1,6 +1,9 @@
 <?php
 require_once("auth.php");
 
+$current_page = basename($_SERVER['PHP_SELF']);
+$hide_logout = in_array($current_page, ['index.php', 'register.php', 'forgot_password.php', 'reset_password.php']);
+
 if (isset($_POST['logout'])) {
   echo "logout click";
   session_unset();    // Remove all session variables
@@ -15,42 +18,45 @@ if (isset($_POST['logout'])) {
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Navbar</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+    <div class="container-fluid px-4">
+      <!-- title -->
+      <span class="navbar-brand fw-semibold text-primary fs-4">📝 Task Manager</span>
 
-  <!-- navabar -->
-  <nav class="navbar navbar-expand-lg" style="background-color: #e9ecef;">
-    <div class="container-fluid">
-      <!-- Title -->
-      <span class="navbar-brand fw-bold text-dark">Task Manager</span>
-
-      <!-- Logout Button triggers modal -->
-      <div class="d-flex ms-auto pe-3">
-        <button class="btn btn-danger px-4" data-bs-toggle="modal" data-bs-target="#logoutModal">LogOut</button>
-      </div>
-
+      <!-- Logout Button -->
+      <?php if (!$hide_logout): ?>
+        <div class="ms-auto">
+          <button class="btn btn-outline-danger d-flex align-items-center gap-2 px-3 py-2 shadow-sm"
+            data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+          </button>
+        </div>
+      <?php endif; ?>
     </div>
   </nav>
 
-  <!-- Logout Confirmation Modal -->
+  <!-- logout confirmation model -->
   <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <form method="post"> <!-- This form submits on confirmation -->
+        <form method="post">
           <div class="modal-header">
             <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-
           <div class="modal-body">
             Are you sure you want to logout?
           </div>
-
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="submit" name="logout" class="btn btn-danger">Yes, Logout</button>
@@ -59,7 +65,6 @@ if (isset($_POST['logout'])) {
       </div>
     </div>
   </div>
-
 </body>
 
 </html>

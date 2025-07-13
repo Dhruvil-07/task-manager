@@ -1,10 +1,4 @@
 <?php
-
-// ini_set('display_errors', 0);
-// error_reporting(0);
-
-// Define DB config via query-style params
-
 $appPort="8080"; //port for application
 
 $DBport="3307";

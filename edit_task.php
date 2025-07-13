@@ -14,7 +14,7 @@ $errors = []; //array to store validation errrors
 //navigate to dashboard when no id provided
 if (!$id) {
     //set alert message
-    Navigate("danger","Task ID Not Provided","./dashboard.php");
+    Navigate("danger", "Task ID Not Provided", "./dashboard.php");
     exit;
 }
 
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         // record not found becuase of the invalide id then redirect to dashboard with error
         if ($result->num_rows === 0) {
             //set alert message
-            Navigate("danger","Invalid Task ID","./dashboard.php");
+            Navigate("danger", "Invalid Task ID", "./dashboard.php");
             exit;
         }
 
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $task_status = $task_data["status"];
     } catch (Exception $e) {
         //set alert message
-        Navigate("danger",$e->getMessage());
+        Navigate("danger", $e->getMessage());
     } finally {
         if (!$stmt) {
             $stmt->close();
@@ -77,11 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
             }
 
             //set alert message
-            Navigate("success","Task Update successful!","./dashboard.php");
+            Navigate("success", "Task Update successful!", "./dashboard.php");
             exit;
         } catch (Exception $e) {
             //set alert message
-            Navigate("danger",$e->getMessage());
+            Navigate("danger", $e->getMessage());
         } finally {
             if ($stmt) {
                 $stmt->close();
@@ -91,59 +91,86 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Form</title>
+    <title>Edit Task</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
-<body class="container-fuild">
+<body class="bg-light">
 
-    <!-- alert component set -->
+    <!-- Alert Component -->
     <?php require_once("./alert_component.php") ?>
 
-    <!-- navbar component set  -->
+    <!-- Navbar -->
     <?php require_once("./navbar.php") ?>
 
-    <h2 class="mb-4">Edit Task</h2>
-    
-    <form method="POST" class="border p-4 rounded shadow-sm bg-light">
+    <!-- Back Button -->
+    <div class="container mt-4">
+        <a href="./dashboard.php" class="btn btn-outline-secondary mb-3 shadow-sm">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
 
-        <input type="hidden" name="task_id" value="<?= htmlspecialchars($task['id']) ?>">
+    <!-- Edit Task Form -->
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-4 text-center text-primary fw-semibold">Edit Task</h4>
 
-        <!-- task title -->
-        <div class="mb-3">
-            <label class="form-label">Title</label>
-            <input type="text" class="form-control" name="title" value="<?= htmlspecialchars($task_title) ?>" readonly>
-        </div>
+                        <form method="POST">
 
-        <!-- task description -->
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control <?= isset($errors['description']) ? 'is-invalid' : '' ?>" name="description"
-                rows="4"><?= htmlspecialchars($task_description) ?></textarea>
-            <?php if (isset($errors['description'])): ?>
-                <div class="invalid-feedback">
-                    <?= $errors['description'] ?>
+                            <input type="hidden" name="task_id" value="<?= htmlspecialchars($task['id']) ?>">
+
+                            <!-- Title (read-only) -->
+                            <div class="mb-3">
+                                <label class="form-label fw-medium">Title</label>
+                                <input type="text" class="form-control border border-dark " name="title"
+                                    value="<?= htmlspecialchars($task_title) ?>" readonly>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label fw-medium">Description</label>
+                                <textarea class="form-control border border-dark  <?= isset($errors['description']) ? 'is-invalid' : '' ?>"
+                                    name="description" rows="4"><?= htmlspecialchars($task_description) ?></textarea>
+                                <?php if (isset($errors['description'])): ?>
+                                    <div class="invalid-feedback">
+                                        <?= $errors['description'] ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Status Checkbox -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" name="status" id="statusCheck"
+                                    value="Completed" <?= $task_status === 'Completed' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="statusCheck">
+                                    Mark as Completed
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid">
+                                <button type="submit" name="update" class="btn btn-primary py-2 fw-semibold">
+                                    <i class="bi bi-save"></i> Update Task
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
-
-        <!-- task completed checkbox -->
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="status" value="Completed"
-                <?= $task_status === 'Completed' ? 'checked' : '' ?>>
-            <label class="form-check-label" for="statusCheck">
-                Completed
-            </label>
-        </div>
-
-        <!-- submit button -->
-        <button type="submit" name="update" class="btn btn-primary">Update Task</button>
-    </form>
+    </div>
 
 </body>
 
