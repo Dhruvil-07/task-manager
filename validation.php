@@ -50,4 +50,30 @@ function validateLogin($email, $password, &$errors) {
 
     return empty($errors);
 }
+
+//add task validation 
+function validateAddTask($title,$ddescription,&$errors)
+{   
+    if(empty($title)){
+        $errors["title"] = "title is require";
+    }
+
+    if(empty($ddescription))
+    {
+        $errors["description"] = "Description is Require";
+    }
+
+    return empty($errors);
+}
+
+// edit task validation
+function validateEditTask($description,&$errors)
+{
+    if(empty($description))
+    {
+        $errors["description"] = "Please Enter Description";
+    }
+
+    return empty($errors);
+}
 ?>

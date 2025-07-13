@@ -16,7 +16,7 @@
     //already login then navigate to dashboard page
     if(isset($_SESSION["user_id"]) &&  $currentPage === "index.php" )
     {
-        header("dashboard.php");
+        header("Location: dashboard.php");
         exit;
     }
 ?>
