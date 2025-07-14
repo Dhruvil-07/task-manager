@@ -1,4 +1,9 @@
 <?php
+
+//stop show error in browser
+error_reporting(0);
+ini_set('display_errors', 0);
+
 $DBport="3307";
 $host = 'localhost:'.$DBport;
 $dbname = 'taskmanager';
