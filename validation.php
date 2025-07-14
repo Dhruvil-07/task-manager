@@ -3,14 +3,37 @@
 //utility function for emial valiadtion
 function isValidEmail($email)
 {
-    return strlen($email) >= 8 && strlen($email) <= 15;
+
+    if (empty($email)) {
+        return "Email is required.";
+    }
+
+    $length = strlen($email);
+    if ($length < 8 || $length > 15) {
+        return "Email must be between 8 and 15 characters.";
+    }
+
+    return null;
+
 }
 
 //utility function for password validation
 function isValidPassword($password)
 {
+    if (empty($password)) {
+        return "Password is required.";
+    }
+
+    if (strlen($password) !== 8) {
+        return "Password must be exactly 8 characters long.";
+    }
+
     $pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[_|@])[A-Za-z\d_|@]{8}$/";
-    return preg_match($pattern, $password);
+    if (!preg_match($pattern, $password)) {
+        return "Password must include uppercase, lowercase, digit, and one special character (_, |, or @).";
+    }
+
+    return null; 
 }
 ?>
 
@@ -21,14 +44,15 @@ function isValidPassword($password)
 // registration page validation
 function validateRegistration($email, $password, $confirmPassword, &$errors)
 {
-    if (!isValidEmail($email)) {
-        $errors['email'] = "Email must be 8–15 characters.";
+    $emailValidation = isValidEmail($email);
+    if($emailValidation !== null) { 
+        $errors["email"] = $emailValidation;
     }
 
-    if (strlen($password) !== 8) {
-        $errors['password'] = "Password must be exactly 8 characters.";
-    } elseif (!isValidPassword($password)) {
-        $errors['password'] = "Password must contain uppercase, lowercase, digit, and _ | @.";
+    $passwordValidation = isValidPassword($password);
+    if($passwordValidation !== null)
+    {
+        $errors["password"] = $passwordValidation;
     }
 
     if ($password !== $confirmPassword) {
@@ -43,14 +67,15 @@ function validateRegistration($email, $password, $confirmPassword, &$errors)
 //login page validation
 function validateLogin($email, $password, &$errors)
 {
-    if (!isValidEmail($email)) {
-        $errors['email'] = "Invalid email length.";
+    $emailValidation = isValidEmail($email);
+    if ($emailValidation !== null) {
+        $errors['email'] = $emailValidation;
     }
 
-    if (!isValidPassword($password)) {
-        $errors['password'] = "Invalid password format.";
+    $passwordValidation = isValidPassword($password);
+    if ($passwordValidation !== null) {
+        $errors['password'] = $passwordValidation;
     }
-
     return empty($errors);
 }
 
@@ -81,20 +106,21 @@ function validateEditTask($description, &$errors)
 //forget password validation
 function validateForgetPassword($email, &$errors)
 {
-    if (!isValidEmail($email)) {
-        $errors['email'] = "Email must be 8–15 characters.";
+    $emailValidation = isValidEmail($email);
+    if($emailValidation !== null)
+    {
+        $errors["email"] = $emailValidation;
     }
-
     return empty($errors);
 }
 
 //reset password validation 
-function validateResetPassword($new_password,$confirm_password,&$errors)
+function validateResetPassword($new_password, $confirm_password, &$errors)
 {
-    if (strlen($new_password) !== 8) {
-        $errors['new_password'] = "Password must be exactly 8 characters.";
-    } elseif (!isValidPassword($new_password)) {
-        $errors['new_password'] = "Password must contain uppercase, lowercase, digit, and _ | @.";
+    $passwordValidation = isValidPassword($new_password);
+    if($passwordValidation !== null)
+    {
+        $errors["new_password"] = $passwordValidation;
     }
 
     if ($new_password !== $confirm_password) {

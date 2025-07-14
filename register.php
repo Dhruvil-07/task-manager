@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <div class="mb-3">
             <label for="registerEmail" class="form-label">Email</label>
             <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid border-danger' : 'border-dark' ?>" name="email"
-              value="<?= htmlspecialchars($email) ?>" required>
+              value="<?= htmlspecialchars($email) ?>">
             <?php if (isset($errors['email'])): ?>
               <div class="invalid-feedback"><?= $errors['email'] ?></div>
             <?php endif; ?>
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <div class="mb-3">
             <label for="registerPassword" class="form-label">Password</label>
             <input type="password" class="form-control <?= isset($errors['password']) ? 'is-invalid border-danger' : 'border-dark' ?>"
-              name="password"  id="password" required>
+              name="password"  id="password">
             <?php if (isset($errors['password'])): ?>
               <div class="invalid-feedback"><?= $errors['password'] ?></div>
             <?php endif; ?>
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <div class="mb-3">
             <label for="cnfpassword" class="form-label">Confirm Password</label>
             <input type="password"class="form-control border <?= isset($errors['confirm']) ? 'is-invalid border-danger' : 'border-dark' ?>"
-              name="cnfpassword" id="confirm_password" required>
+              name="cnfpassword" id="confirm_password">
             <?php if (isset($errors['confirm'])): ?>
               <div class="invalid-feedback"><?= $errors['confirm'] ?></div>
             <?php endif; ?>

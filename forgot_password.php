@@ -50,8 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["forgot_password"])) {
 
                 //genrate reset link
                 $resetLink = "http://" . $_SERVER["HTTP_HOST"] . "/task-manager/reset_password.php?token=" . $token;
-
-                session_destroy();
             } else {
                 throw new Exception("No Rocord Found With This Email");
             }
@@ -104,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["forgot_password"])) {
                 <form method="post" novalidate>
                     <div class="mb-3">
                         <label for="email" class="form-label">Enter your registered email</label>
-                        <input type="email" name="email" required
-                            class="form-control border border-dark <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
+                        <input type="email" name="email"
+                            class="form-control border  <?= isset($errors['email']) ? 'is-invalid border-danger' : 'border-dark' ?>"
                             value="<?= htmlspecialchars($email) ?>">
                         <?php if (isset($errors['email'])): ?>
                             <div class="invalid-feedback"><?= $errors['email'] ?></div>
