@@ -5,9 +5,25 @@ $current_page = basename($_SERVER['PHP_SELF']);
 $hide_logout = in_array($current_page, ['index.php', 'register.php', 'forgot_password.php', 'reset_password.php']);
 
 if (isset($_POST['logout'])) {
-  echo "logout click";
   session_unset();    // Remove all session variables
   session_destroy();  // Destroy the session
+
+  //  Delete the session cookie from the browser
+  if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+
+    // This sets the session cookie to expire in the past
+    setcookie(
+      session_name(),
+      '',
+      time() - 3600,
+      $params["path"],
+      $params["domain"],
+      $params["secure"],
+      $params["httponly"]
+    );
+  }
+
   header("Location: index.php"); // Redirect to login page
   exit;
 }
@@ -27,10 +43,12 @@ if (isset($_POST['logout'])) {
 
 <body>
   <!-- navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+  <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm">
     <div class="container-fluid px-4">
-      <!-- title -->
-      <span class="navbar-brand fw-semibold text-primary fs-4">📝 Task Manager</span>
+      <!-- title with visible emoji/icon -->
+      <span class="navbar-brand fw-bold text-primary fs-4">
+        📝 Task Manager
+      </span>
 
       <!-- Logout Button -->
       <?php if (!$hide_logout): ?>
@@ -44,6 +62,7 @@ if (isset($_POST['logout'])) {
       <?php endif; ?>
     </div>
   </nav>
+
 
   <!-- logout confirmation model -->
   <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">

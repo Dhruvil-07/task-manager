@@ -1,10 +1,20 @@
 <?php
 require_once("./navigate.php");
 
+// Set session lifetime to 24 hours
+ini_set('session.cookie_lifetime', 86400);
+ini_set('session.gc_maxlifetime', 86400);
+
 //no session then stat -> becuase we call this file on every page 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Track first visit in session
+if (!isset($_SESSION['visited'])) {
+    $_SESSION['visited'] = true;
+}
+
 //current page
 $currentPage = basename($_SERVER['PHP_SELF']);
 
@@ -27,7 +37,14 @@ if (!isset($_SESSION['user_id']) && !in_array($currentPage, $publicPages)) {
 
 //already login then navigate to dashboard page
 if (isset($_SESSION["user_id"]) && in_array($currentPage, $publicPages)) {
-    Navigate("danger",$directionMessages[$currentPage],"./dashboard.php");
-    exit;
+     // Show alert only if session['visited'] was not yet set
+     if (isset($_SESSION['visited'])) {
+        // $_SESSION['visited'] = true;
+        Navigate("danger", $directionMessages[$currentPage], "./dashboard.php");
+        exit;
+    } else {
+        header("Location: dashboard.php");
+        exit;
+    }   
 }
 ?>

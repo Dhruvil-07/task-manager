@@ -2,7 +2,7 @@
 require_once('./db.php');
 require_once('./validation.php');
 require_once('./auth.php');
-require_once("navigate.php");
+require_once("./navigate.php");
 
 // Initialize variables
 $email = '';
@@ -30,14 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
           $_SESSION['user_id'] = $user['id']; // set user id to session
+
           //navigate to dashboard with alert
           Navigate("success", "Login SuceessFuly", "./dashboard.php");
           exit;
         } else {
-          Navigate("danger","Incorrect Password");
+          Navigate("danger", "Incorrect Password");
         }
       } else {
-        Navigate("danger","No user found with this email.");
+        Navigate("danger", "No user found with this email.");
       }
     } catch (Exception $e) {
       //show error alert
@@ -65,10 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 <body class="bg-light">
 
   <!-- Alert Component -->
-  <?php require_once("alert_component.php") ?>
+  <?php require_once("./alert_component.php") ?>
 
   <!-- navbar -->
-  <?php require_once("navbar.php") ?>
+  <?php require_once("./navbar.php") ?>
 
   <!-- Login Form Card -->
   <div class="d-flex justify-content-center align-items-center min-vh-100 px-3">
@@ -80,8 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
           <!-- Email -->
           <div class="mb-3">
             <label for="loginEmail" class="form-label fw-medium">Email</label>
-            <input type="email" class="form-control  <?= isset($errors['email']) ? 'is-invalid border-danger' : 'border-dark' ?>" name="email"
-              value="<?= htmlspecialchars($email) ?>">
+            <input type="email"
+              class="form-control  <?= isset($errors['email']) ? 'is-invalid border-danger' : 'border-dark' ?>"
+              name="email" value="<?= htmlspecialchars($email) ?>">
             <?php if (isset($errors['email'])): ?>
               <div class="invalid-feedback"><?= $errors['email'] ?></div>
             <?php endif; ?>
@@ -90,21 +92,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
           <!-- Password -->
           <div class="mb-3">
             <label for="loginPassword" class="form-label fw-medium">Password</label>
-            <input type="password" class="form-control  <?= isset($errors['password']) ? 'is-invalid border-danger' : 'border-dark' ?>"
+            <input type="password"
+              class="form-control  <?= isset($errors['password']) ? 'is-invalid border-danger' : 'border-dark' ?>"
               name="password" id="password">
             <?php if (isset($errors['password'])): ?>
               <div class="invalid-feedback"><?= $errors['password'] ?></div>
             <?php endif; ?>
           </div>
 
-            <!-- show password checkbox -->
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="checkbox" id="showPasswordCheck">
-              <label class="form-check-label" for="showPasswordCheck">
-                Show Password
-              </label>
-            </div>
-          
+          <!-- show password checkbox -->
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="showPasswordCheck">
+            <label class="form-check-label" for="showPasswordCheck">
+              Show Password
+            </label>
+          </div>
+
           <!-- Forgot Password -->
           <div class="text-end mb-3">
             <a href="forgot_password.php" class="text-decoration-none small">Forgot Password?</a>
