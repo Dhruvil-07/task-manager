@@ -29,7 +29,7 @@ Open phpMyAdmin  and simply import the provided taskmanager.sql file.
 # login creadential
 -------------------------
 email : bob@gmail.com
-password : Bob@123 ( lenght = 8 , must need atleast one Upper case , lowercase , special charcter and digit )
+password : Bob@9090 ( lenght = 8 , must need atleast one Upper case , lowercase , special charcter and digit )
 
 -> there is is registration flow , you can create your own user
 
