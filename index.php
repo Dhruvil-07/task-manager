@@ -4,9 +4,8 @@ require_once('./validation.php');
 require_once('./auth.php');
 require_once("./navigate.php");
 
-// Initialize variables
-$email = '';
-$errors = [];
+$email = ''; //store email
+$errors = []; //store validation errors
 
 // Handle login form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
@@ -32,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
           $_SESSION['user_id'] = $user['id']; // set user id to session
 
           //navigate to dashboard with alert
-          Navigate("success", "Login SuceessFuly", "./dashboard.php");
+          Navigate("success", "Login SuceessFully", "./dashboard.php");
           exit;
         } else {
           Navigate("danger", "Incorrect Password");
@@ -61,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
   <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
   <!-- Alert Component -->
   <?php require_once("./alert_component.php") ?>
 
-  <!-- navbar -->
+  <!-- Navbar -->
   <?php require_once("./navbar.php") ?>
 
   <!-- Login Form Card -->

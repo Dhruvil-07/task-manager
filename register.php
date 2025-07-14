@@ -1,4 +1,5 @@
 <?php
+require_once("./auth.php");
 require_once('./db.php');
 require_once('./validation.php');
 require_once("./navigate.php");
@@ -68,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
   <!-- Bootstrap CSS + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -75,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
   <!-- Alert Component -->
   <?php require_once("./alert_component.php") ?>
 
-  <!-- navbar -->
+  <!-- Navbar -->
    <?php require_once("navbar.php") ?>
 
   <!-- Register Form Section -->
@@ -109,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <div class="mb-3">
             <label for="cnfpassword" class="form-label">Confirm Password</label>
             <input type="password"class="form-control border <?= isset($errors['confirm']) ? 'is-invalid border-danger' : 'border-dark' ?>"
-              name="cnfpassword" id="confirm_password">
+              name="cnfpassword" id="confirm_password" required>
             <?php if (isset($errors['confirm'])): ?>
               <div class="invalid-feedback"><?= $errors['confirm'] ?></div>
             <?php endif; ?>

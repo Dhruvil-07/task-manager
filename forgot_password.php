@@ -1,10 +1,10 @@
 <?php
 require_once("./auth.php");
 require_once('./db.php');
-require_once('./validation.php');
+require_once("./validation.php");
 require_once("./navigate.php");
 
-$email = '';
+$email = ''; //for store email
 $resetLink = ''; //for store reset link
 $errors = []; //store validation error
 
@@ -76,10 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["forgot_password"])) {
     <meta charset="UTF-8">
     <title>Forgot Password</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -87,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["forgot_password"])) {
     <!-- Alert Component -->
     <?php require_once("./alert_component.php") ?>
 
-    <!-- navbar -->
+    <!-- Navbar -->
      <?php require_once("./navbar.php") ?>
 
     <!-- Forgot Password Section -->

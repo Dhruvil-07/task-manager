@@ -1,8 +1,8 @@
 <?php
-require_once("auth.php");
-require_once("db.php");
-require_once("validation.php");
-require_once("navigate.php");
+require_once("./auth.php");
+require_once("./db.php");
+require_once("./validation.php");
+require_once("./navigate.php");
 
 $id = $_GET["id"]; //task id
 $user_id = $_SESSION["user_id"]; //login user id
@@ -98,8 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
 <head>
     <meta charset="UTF-8">
     <title>Edit Task</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -139,7 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
                             <!-- Description -->
                             <div class="mb-3">
                                 <label for="description" class="form-label fw-medium">Description</label>
-                                <textarea class="form-control border border-dark  <?= isset($errors['description']) ? 'is-invalid' : '' ?>"
+                                <textarea
+                                    class="form-control <?= isset($errors['description']) ? 'is-invalid border-danger' : 'border-dark' ?>"
                                     name="description" rows="4"><?= htmlspecialchars($task_description) ?></textarea>
                                 <?php if (isset($errors['description'])): ?>
                                     <div class="invalid-feedback">

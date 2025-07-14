@@ -1,6 +1,6 @@
 <?php
 
-    require_once("auth.php");
+    require_once("./auth.php");
 
     //common utitlity function for navigation with message
     function Navigate($type,$message,$path = null)

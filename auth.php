@@ -31,20 +31,21 @@ $directionMessages = [
 
 //if not login and access protected page  -> navigate index.php
 if (!isset($_SESSION['user_id']) && !in_array($currentPage, $publicPages)) {
-    header("Location: index.php");
+    // header("Location: index.php");
+    Navigate("danger", "Access restricted. Please Login in first.", "./index.php");
     exit;
 }
 
 //already login then navigate to dashboard page
 if (isset($_SESSION["user_id"]) && in_array($currentPage, $publicPages)) {
-     // Show alert only if session['visited'] was not yet set
-     if (isset($_SESSION['visited'])) {
+    // Show alert only if session['visited'] was not yet set
+    if (isset($_SESSION['visited'])) {
         // $_SESSION['visited'] = true;
         Navigate("danger", $directionMessages[$currentPage], "./dashboard.php");
         exit;
     } else {
         header("Location: dashboard.php");
         exit;
-    }   
+    }
 }
 ?>

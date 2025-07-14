@@ -1,8 +1,8 @@
 <?php
-require_once("db.php");
-require_once('auth.php');
-require_once('validation.php');
-require_once('navigate.php');
+require_once("./db.php");
+require_once('./auth.php');
+require_once("./validation.php");
+require_once("./navigate.php");
 
 $title = ''; //for store title
 $desripption = ''; //for store description
@@ -57,14 +57,20 @@ if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["add_task"]))) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-color: #eaf4fc;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-    <!-- alert component set -->
+    <!-- Alert Component -->
     <?php include('./alert_component.php'); ?>
 
-    <!-- navbar -->
+    <!-- Navbar -->
     <?php include('navbar.php'); ?>
 
     <!-- back to dashboard button -->
@@ -88,7 +94,7 @@ if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["add_task"]))) {
                             <div class="mb-3">
                                 <label for="task_title" class="form-label fw-medium">Task Title</label>
                                 <input type="text"
-                                    class="form-control  border border-dark  <?= isset($errors['title']) ? 'is-invalid' : '' ?>" name="title"
+                                    class="form-control  <?= isset($errors['title']) ? 'is-invalid border-danger' : 'border-dark' ?>" name="title"
                                     id="task_title" value="<?= htmlspecialchars($title ?? '') ?>">
                                 <?php if (isset($errors['title'])): ?>
                                     <div class="invalid-feedback"><?= $errors['title'] ?></div>
@@ -98,7 +104,7 @@ if (($_SERVER["REQUEST_METHOD"] === "POST") && (isset($_POST["add_task"]))) {
                             <!-- Task Description -->
                             <div class="mb-3">
                                 <label for="task_description" class="form-label fw-medium">Task Description</label>
-                                <textarea class="form-control border border-dark  <?= isset($errors['description']) ? 'is-invalid' : '' ?>"
+                                <textarea class="form-control  <?= isset($errors['description']) ? 'is-invalid border-danger' : 'border-dark' ?>"
                                     id="task_description" name="description"
                                     rows="4"><?= htmlspecialchars($description ?? '') ?></textarea>
                                 <?php if (isset($errors['description'])): ?>

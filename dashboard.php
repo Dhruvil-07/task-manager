@@ -32,14 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f5f2ff;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- alert component set -->
+    <!-- Alert Component -->
     <?php require_once("./alert_component.php") ?>
 
-    <!--  navbar component set -->
+    <!--  Navbar -->
     <?php require_once("./navbar.php") ?>
 
     <!-- add new task navigation -->
@@ -71,39 +79,46 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 <?php foreach ($tasks as $task): ?>
                     <?php
                     $status = strtolower($task['status']);
+                    //set
                     $badgeClass = match ($status) {
                         'pending' => 'bg-warning text-dark',
-                        'in progress' => 'bg-primary',
+                        'in progress' => 'bg-info text-dark',
                         'completed' => 'bg-success',
                         default => 'bg-secondary',
                     };
+
+                    // Set card background color based on status
+                    $cardBgColor = match ($status) {
+                        'completed' => '#d1e7dd',
+                        'pending' => '#fff3cd',
+                    };
                     ?>
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <div class="card h-100 bg-light border border-secondary-subtle shadow-sm rounded-4">
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="card-title mb-0"><?= htmlspecialchars($task['title']) ?></h5>
-                                    <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($task['status']) ?></span>
+                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                        <div class="card h-100 border-0 shadow rounded-4" style="background-color: <?= $cardBgColor ?>;">
+                            <div class="card-body d-flex flex-column p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5 class="card-title fw-semibold mb-0"><?= htmlspecialchars($task['title']) ?></h5>
+                                    <span
+                                        class="badge <?= $badgeClass ?> px-3 py-2 text-capitalize"><?= htmlspecialchars($task['status']) ?></span>
                                 </div>
 
-                                <div class="mb-3">
-                                    <strong>Description:</strong>
-                                    <div class="border rounded p-2 bg-light"
-                                        style="max-height: 100px; overflow-y: auto; font-size: 0.9rem;">
+                                <div class="mb-4">
+                                    <h6 class="mb-2 text-muted">Description</h6>
+                                    <div class="border rounded-3 p-3"
+                                        style="background-color: #f8f9fa; min-height: 180px; max-height: 180px; overflow-y: auto; font-size: 0.95rem; line-height: 1.4;">
                                         <?= nl2br(htmlspecialchars($task['description'] ?? 'No description')) ?>
                                     </div>
                                 </div>
 
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <strong>Created at :</strong> <?= date('Y-m-d', strtotime($task['created_at'])) ?>
-                                    </small>
+                                <p class="card-text text-muted mb-4">
+                                    <small><strong>Created:</strong>
+                                        <?= date('d-m-Y', strtotime($task['created_at'])) ?></small>
                                 </p>
 
                                 <div class="mt-auto d-flex justify-content-between">
                                     <a href="./edit_task.php?id=<?= $task["id"] ?>"
-                                        class="btn btn-outline-primary btn-sm">Edit</a>
-                                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                        class="btn btn-outline-primary btn-sm px-3">Edit</a>
+                                    <button class="btn btn-outline-danger btn-sm px-3" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal" data-id="<?= $task['id'] ?>">Delete</button>
                                 </div>
                             </div>

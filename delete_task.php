@@ -1,7 +1,8 @@
 <?php
-require_once("auth.php");
-require_once("db.php");
-require_once("navigate.php");
+require_once("./auth.php");
+require_once("./db.php");
+require_once("./validation.php");
+require_once("./navigate.php");
 
 
 $id = $_POST["task_id"]; //task id

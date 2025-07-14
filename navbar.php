@@ -1,8 +1,8 @@
 <?php
 require_once("auth.php");
 
-$current_page = basename($_SERVER['PHP_SELF']);
-$hide_logout = in_array($current_page, ['index.php', 'register.php', 'forgot_password.php', 'reset_password.php']);
+//high logout button
+$hide_logout = in_array($currentPage, $publicPages);
 
 if (isset($_POST['logout'])) {
   session_unset();    // Remove all session variables
@@ -43,18 +43,18 @@ if (isset($_POST['logout'])) {
 
 <body>
   <!-- navbar -->
-  <nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm">
+  <nav class="navbar navbar-expand-lg text-white" style="background: linear-gradient(90deg, #4e54c8, #8f94fb);">
     <div class="container-fluid px-4">
       <!-- title with visible emoji/icon -->
-      <span class="navbar-brand fw-bold text-primary fs-4">
+      <span class="navbar-brand fw-bold text-white fs-4">
         📝 Task Manager
       </span>
 
       <!-- Logout Button -->
       <?php if (!$hide_logout): ?>
         <div class="ms-auto">
-          <button class="btn btn-outline-danger d-flex align-items-center gap-2 px-3 py-2 shadow-sm"
-            data-bs-toggle="modal" data-bs-target="#logoutModal">
+          <button class="btn btn-danger d-flex align-items-center gap-2 px-3 py-2 shadow-sm" data-bs-toggle="modal"
+            data-bs-target="#logoutModal">
             <i class="bi bi-box-arrow-right"></i>
             Logout
           </button>
