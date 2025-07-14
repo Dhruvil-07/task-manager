@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <!-- Email -->
           <div class="mb-3">
             <label for="registerEmail" class="form-label">Email</label>
-            <input type="email" class="form-control border border-dark  <?= isset($errors['email']) ? 'is-invalid' : '' ?>" name="email"
+            <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid border-danger' : 'border-dark' ?>" name="email"
               value="<?= htmlspecialchars($email) ?>" required>
             <?php if (isset($errors['email'])): ?>
               <div class="invalid-feedback"><?= $errors['email'] ?></div>
@@ -98,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <!-- Password -->
           <div class="mb-3">
             <label for="registerPassword" class="form-label">Password</label>
-            <input type="password" class="form-control border border-dark  <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
-              name="password" required>
+            <input type="password" class="form-control <?= isset($errors['password']) ? 'is-invalid border-danger' : 'border-dark' ?>"
+              name="password"  id="password" required>
             <?php if (isset($errors['password'])): ?>
               <div class="invalid-feedback"><?= $errors['password'] ?></div>
             <?php endif; ?>
@@ -108,11 +108,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
           <!-- Confirm Password -->
           <div class="mb-3">
             <label for="cnfpassword" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control border border-dark <?= isset($errors['confirm']) ? 'is-invalid' : '' ?>"
-              name="cnfpassword" required>
+            <input type="password"class="form-control border <?= isset($errors['confirm']) ? 'is-invalid border-danger' : 'border-dark' ?>"
+              name="cnfpassword" id="confirm_password" required>
             <?php if (isset($errors['confirm'])): ?>
               <div class="invalid-feedback"><?= $errors['confirm'] ?></div>
             <?php endif; ?>
+          </div>
+
+           <!-- show password checkbox -->
+           <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="showPasswordCheck">
+            <label class="form-check-label" for="showPasswordCheck">
+              Show Password
+            </label>
           </div>
 
           <!-- Submit Button -->
@@ -131,6 +139,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registraction'])) {
     </div>
   </div>
 
+  <script>
+    document.getElementById("showPasswordCheck").addEventListener('change',function(){
+      const passwordInput = document.getElementById("password");
+      const confirm_password_Input = document.getElementById("confirm_password");
+      passwordInput.type = this.checked ? 'text' : 'password';
+      confirm_password_Input.type = this.checked ? 'text' : 'password';
+    })
+  </script>
 </body>
 
 </html>

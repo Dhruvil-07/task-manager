@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset_password"])) {
 
     if (validateResetPassword($new_password, $confirm_password, $errors)) {
         $stmt = null;
-        try {   
+        try {
             //create hash of password
             $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT);
 
@@ -135,8 +135,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset_password"])) {
 
                         <div class="mb-3">
                             <label class="form-label">New Password</label>
-                            <input type="password" name="new_password"
-                                class="form-control border border-dark  <?= isset($errors['new_password']) ? 'is-invalid' : '' ?>">
+                            <input type="password" name="new_password" id="password"
+                                class="form-control border <?= isset($errors['new_password']) ? 'is-invalid border-danger' : 'border-dark' ?>">
                             <?php if (isset($errors['new_password'])): ?>
                                 <div class="invalid-feedback">
                                     <?= $errors['new_password'] ?>
@@ -147,13 +147,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset_password"])) {
                         <!-- Confirm Password -->
                         <div class="mb-3">
                             <label class="form-label">Confirm Password</label>
-                            <input type="password" name="confirm_password"
-                                class="form-control border border-dark <?= isset($errors['confirm_password']) ? 'is-invalid' : '' ?>">
+                            <input type="password" name="confirm_password" id="confirm_password"
+                                class="form-control border <?= isset($errors['confirm_password']) ? 'is-invalid border-danger' : 'border-dark' ?>">
                             <?php if (isset($errors['confirm_password'])): ?>
                                 <div class="invalid-feedback">
                                     <?= $errors['confirm_password'] ?>
                                 </div>
                             <?php endif; ?>
+                        </div>
+
+                        <!-- show password checkbox -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="showPasswordCheck">
+                            <label class="form-check-label" for="showPasswordCheck">
+                                Show Password
+                            </label>
                         </div>
 
                         <!-- Submit Button -->
@@ -168,6 +176,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["reset_password"])) {
         </div>
     </div>
 
+    <script>
+        document.getElementById("showPasswordCheck").addEventListener("change", function () {
+            const passwordInput = document.getElementById("password");
+            const confirm_password_Input = document.getElementById("confirm_password");
+            passwordInput.type = this.checked ? "text" : "password";
+            confirm_password_Input.type = this.checked ? "text" : "password";
+        })
+    </script>
 </body>
 
 </html>

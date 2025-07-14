@@ -30,15 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
           $_SESSION['user_id'] = $user['id']; // set user id to session
-
           //navigate to dashboard with alert
           Navigate("success", "Login SuceessFuly", "./dashboard.php");
           exit;
         } else {
-          $errors['password'] = "Incorrect password.";
+          Navigate("danger","Incorrect Password");
         }
       } else {
-        $errors['email'] = "No user found with this email.";
+        Navigate("danger","No user found with this email.");
       }
     } catch (Exception $e) {
       //show error alert
@@ -81,8 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
           <!-- Email -->
           <div class="mb-3">
             <label for="loginEmail" class="form-label fw-medium">Email</label>
-            <input type="email" class="form-control border border-dark  <?= isset($errors['email']) ? 'is-invalid' : '' ?>" name="email"
-              value="<?= htmlspecialchars($email) ?>" required>
+            <input type="email" class="form-control  <?= isset($errors['email']) ? 'is-invalid border-danger' : 'border-dark' ?>" name="email"
+              value="<?= htmlspecialchars($email) ?>">
             <?php if (isset($errors['email'])): ?>
               <div class="invalid-feedback"><?= $errors['email'] ?></div>
             <?php endif; ?>
@@ -91,13 +90,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
           <!-- Password -->
           <div class="mb-3">
             <label for="loginPassword" class="form-label fw-medium">Password</label>
-            <input type="password" class="form-control border border-dark  <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
-              name="password" required>
+            <input type="password" class="form-control  <?= isset($errors['password']) ? 'is-invalid border-danger' : 'border-dark' ?>"
+              name="password" id="password">
             <?php if (isset($errors['password'])): ?>
               <div class="invalid-feedback"><?= $errors['password'] ?></div>
             <?php endif; ?>
           </div>
 
+            <!-- show password checkbox -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="showPasswordCheck">
+              <label class="form-check-label" for="showPasswordCheck">
+                Show Password
+              </label>
+            </div>
+          
           <!-- Forgot Password -->
           <div class="text-end mb-3">
             <a href="forgot_password.php" class="text-decoration-none small">Forgot Password?</a>
@@ -119,6 +126,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
       </div>
     </div>
   </div>
+
+  <script>
+    document.getElementById('showPasswordCheck').addEventListener('change', function () {
+      const passwordInput = document.getElementById('password');
+      passwordInput.type = this.checked ? 'text' : 'password';
+    });
+  </script>
 
 </body>
 
