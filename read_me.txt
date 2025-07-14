@@ -26,6 +26,12 @@ Open phpMyAdmin  and simply import the provided taskmanager.sql file.
 	$username → your MySQL username (e.g., root)
 	$password → your MySQL password (empty by default on XAMPP)
 
+# login creadential
+-------------------------
+email : bob@gmail.com
+password : Bob@123 ( lenght = 8 , must need atleast one Upper case , lowercase , special charcter and digit )
+
+-> there is is registration flow , you can create your own user
 
 # Folder Structure (Provided in the Question)
 ----------------------------------------------
