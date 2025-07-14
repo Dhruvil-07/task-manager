@@ -1,6 +1,4 @@
 <?php
-$appPort="8080"; //port for application
-
 $DBport="3307";
 $host = 'localhost:'.$DBport;
 $dbname = 'taskmanager';

@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["forgot_password"])) {
                 }
 
                 //genrate reset link
-                $resetLink = "http://" . $_SERVER["HTTP_HOST"] . "/task-manager/reset_password.php?token=" . $token;
+                $resetLink = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER['PHP_SELF']) ."/reset_password.php?token=" . $token;
             } else {
                 throw new Exception("No Rocord Found With This Email");
             }

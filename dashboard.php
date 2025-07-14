@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
 <body>
 
-    <!-- Alert Component -->
+    <!-- Alert Compodbnent -->
     <?php require_once("./alert_component.php") ?>
 
     <!--  Navbar -->
